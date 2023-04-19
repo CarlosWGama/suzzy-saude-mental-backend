@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id Int @id @default(autoincrement())  
+  nome String 
+  email String @unique
+  senha String  
+  admin Boolean @default(false)
+  extra DadosExtras?
+  criado_em DateTime @default(now())
+}
+
+
+enum Genero {
+  masculino
+  feminino
+  outros
+}
+
+enum ZonaResidencial {
+  urbana
+  rural
+}
+
+enum EstadoCivil {
+  solteiro
+  casado
+  separado
+  divorciado
+  viuvo
+  nao_informar
+}
+
+enum OrientacaoSexual {
+  heterossexual
+  homossexual
+  bissexual
+  outros
+  nao_informar
+}
+
+model DadosExtras {
+  id Int @id @default(autoincrement())
+  usuario_id Int @unique
+  usuario Usuario @relation(fields: [usuario_id], references: [id])
+  telefone String?
+  cpf String?
+  data_nascimento DateTime?
+  genero Genero
+  escolaridade String?
+  zona_residencial ZonaResidencial?
+  estado_civil EstadoCivil
+  orientacao_sexual OrientacaoSexual
+  problema_mental Boolean
+  problema_mental_quais String?
+  uso_medicamento Boolean
+  uso_medicamento_quais String?
+}
