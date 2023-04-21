@@ -1,74 +1,88 @@
-import { IsEmail, IsString, IsNotEmpty, IsBoolean } from "class-validator";
+import { IsEmail, IsString, IsNotEmpty, IsBoolean, MinLength, IsOptional } from "class-validator";
 
 export class CreateUsuarioDto {
     //===========
-    @IsString()
-    @IsNotEmpty()
+    @IsString({message: 'Nome deve ser um texto'})
+    @IsNotEmpty({message: 'Nome é um campo obrigatório'})
     nome: string;
     
     //===========
-    @IsString()
+    @IsString({message: 'Email deve ser um texto'})
     @IsEmail()
-    @IsNotEmpty()
+    @IsNotEmpty({message: 'Email é um campo obrigatório'})
     email: string;
     
     //===========
-    @IsString()
-    @IsNotEmpty()
+    @IsString({message: 'Senha deve ser um texto'})
+    @IsNotEmpty({message: 'Senha é um campo obrigatório'})
+    @MinLength(5, { message: 'Senha precisa ter no mínimo 5 caracteres' })
     senha:string  
 
     //===========
-    @IsBoolean()
+    @IsBoolean({message: 'Admin deve ser um booleano'})
+    @IsOptional()
     admin?:boolean
 
 
     //===========
     // EXTRA   //
     //===========
-    @IsString()
+    @IsString({message: 'Telefone deve ser um texto'})
+    @IsOptional()
     telefone?: string;
 
     //===========
-    @IsString()
+    @IsString({message: 'CPF deve ser um texto'})
+    @IsOptional()
     cpf?: string;
 
     //===========
-    @IsString()
+    @IsString({message: 'Data de Nascimento em formato inválido'})
+    @IsOptional()
     data_nascimento?: string;
 
     //===========
-    @IsString()
+    @IsString({message: 'Gênero deve ser um texto'})
+    @IsOptional()
     genero?: string;
 
     //===========
-    @IsString()
+    @IsString({message: 'Escolaridade deve ser um texto'})
+    @IsOptional()
     escolaridade?: string;
 
     //===========
-    @IsString()
+    @IsString({message: 'Zona Residencial deve ser um texto'})
+    @IsOptional()
     zona_residencial?: string;
 
     //===========
-    @IsString()
+    @IsString({message: 'Estado Cívil deve ser um texto'})
+    @IsOptional()
     estado_civil?: string;
 
     //===========
-    @IsString()
+    @IsString({message: 'Orientação Sexual deve ser um texto'})
+    @IsOptional()
     orientacao_sexual?: string;
 
     //===========
-    @IsBoolean()
+    @IsBoolean({message: 'Problema Mental deve ser um booleano'})
+    @IsOptional()
     problema_mental?: boolean;
 
     //===========
-    @IsBoolean()
+    @IsString({message: 'Os problemas mentais devem ser um texto'})
+    @IsOptional()
     problema_mental_quais?: string;
 
     //===========
-    @IsBoolean()
+    @IsBoolean({message: 'Uso de medicamento deve ser um booleano'})
+    @IsOptional()
     uso_medicamento?: boolean
     
     //==========
-    @IsString()
+    @IsString({message: 'Os medicamentos deve ser um texto'})
+    @IsOptional()
     uso_medicamento_quais?: string
 }

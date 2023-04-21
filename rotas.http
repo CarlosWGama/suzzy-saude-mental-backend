@@ -1,0 +1,30 @@
+@baseURL = http://localhost:3000
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjo5LCJub21lIjoiQWRtaW4iLCJlbWFpbCI6InRlc3RlM0B0ZXN0ZS5jb20iLCJhZG1pbiI6dHJ1ZSwiY3JpYWRvX2VtIjoiMjAyMy0wNC0yMVQxMzo0MjozOC45NjhaIn0sImlhdCI6MTY4MjA4NjYwMywiZXhwIjoxNjg0Njc4NjAzfQ.Uaqk7m9aJQt4xvuJPiaujqpD_LAksFellmm4ahTEjak
+
+###
+GET {{baseURL}}
+
+###
+POST {{baseURL}}/usuarios
+Content-Type: application/json
+
+{
+    "senha": "123456",
+    "email": "teste3@teste.com",
+    "nome": "Admin",
+    "admin": true
+}
+
+
+###
+POST {{baseURL}}/usuarios/login
+Content-Type: application/json
+
+{
+    "senha": "123456",
+    "email": "teste3@teste.com"
+}
+
+###
+GET {{baseURL}}/usuarios
+Authorization: Bearer {{token}}

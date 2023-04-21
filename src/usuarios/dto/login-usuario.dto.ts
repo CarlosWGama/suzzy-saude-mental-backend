@@ -1,15 +1,14 @@
-import { IsEmail, IsString, IsNotEmpty, IsBoolean } from "class-validator";
+import { IsEmail, IsString, IsNotEmpty, IsBoolean, MinLength } from "class-validator";
 
 export class LoginUsuarioDto {
     //===========
-    @IsString()
     @IsEmail()
-    @IsNotEmpty()
+    @IsNotEmpty({message: 'O campo email não pode estar vázio'})
     email: string;
     
     //===========
-    @IsString()
-    @IsNotEmpty()
+    @MinLength(5, {message: 'O campo senha precisa ter pelo menos 5 caracteres'})
+    @IsNotEmpty({message: 'O cmapo email é obrigatório'})
     senha:string  
 
 }

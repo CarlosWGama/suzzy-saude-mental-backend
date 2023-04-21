@@ -56,13 +56,13 @@ model DadosExtras {
   telefone String?
   cpf String?
   data_nascimento DateTime?
-  genero Genero
+  genero Genero?
   escolaridade String?
   zona_residencial ZonaResidencial?
-  estado_civil EstadoCivil
-  orientacao_sexual OrientacaoSexual
-  problema_mental Boolean
+  estado_civil EstadoCivil?
+  orientacao_sexual OrientacaoSexual?
+  problema_mental Boolean?
   problema_mental_quais String?
-  uso_medicamento Boolean
+  uso_medicamento Boolean?
   uso_medicamento_quais String?
 }
