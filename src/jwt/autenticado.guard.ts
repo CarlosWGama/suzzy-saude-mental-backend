@@ -22,7 +22,7 @@ export class AutenticadoGuard implements CanActivate {
         }
       );
       
-      request['jwt'] = payload;
+      request['jwt'] = payload.payload;
     } catch {
       throw new UnauthorizedException();
     }

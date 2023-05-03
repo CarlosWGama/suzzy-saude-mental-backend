@@ -73,15 +73,50 @@ export class UsuariosService {
     return this.prisma.usuario.findMany({include: {extra: true}});
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} usuario`;
+  //Busca um unico usuário
+  async buscarPorId(id: number) {
+    console.log(id)
+    return this.prisma.usuario.findUnique({where: {id}})
   }
 
-  update(id: number, updateUsuarioDto: UpdateUsuarioDto) {
-    return `This action updates a #${id} usuario`;
+  //atualiza os dados do usuário
+  async atualizar(id: number, dados: UpdateUsuarioDto) {
+    
+    try {
+      let data: any = {
+        nome: dados.nome,
+        admin: (dados.admin ? dados.admin : false)
+
+      }
+      if (dados.senha) {
+        const bcrypt = require('bcrypt');
+        const salt = bcrypt.genSaltSync(12);
+        const hash = bcrypt.hashSync(dados.senha, salt);
+        data['senha'] = hash;
+      }
+      const usuario = await this.prisma.usuario.update({where:{id}, data});
+      
+      data = filtrarCampos(dados, ['telefone', 'cpf', 'data_nascimento', 'genero', 'escolaridade', 'zona_residencial', 'estado_civil', 'orientacao_sexual', 'problema_mental', 'problema_mental_quais', 'uso_medicamento', 'uso_medicamento_quais']);
+      
+      const extra = await this.prisma.dadosExtras.update({where: {usuario_id: id}, data})
+      console.log(extra)
+      
+      delete usuario.senha;
+      return {sucesso: true, usuario}
+    } catch(e) {
+      console.log(e)
+      return {sucesso: false}
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} usuario`;
+  //Remove um usuário
+  async remove(id: number) {
+    try {
+      await this.prisma.usuario.delete({where: {id}})
+      return {sucesso: true, usuario_id: id}
+    } catch (e) {
+      console.log(e)
+      return {sucesso: false}
+    }
   }
 }

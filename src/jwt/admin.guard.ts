@@ -20,10 +20,10 @@ export class AdminGuard implements CanActivate {
         {
           secret: jwtOpcoes.secret
         }
-      );
-
-      request['jwt'] = payload;
-      return payload.admin;
+        );
+        
+      request['jwt'] = payload.payload;
+      return payload.payload.admin;
 
     } catch {
       throw new UnauthorizedException();

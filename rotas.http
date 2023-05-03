@@ -1,5 +1,6 @@
 @baseURL = http://localhost:3000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjo5LCJub21lIjoiQWRtaW4iLCJlbWFpbCI6InRlc3RlM0B0ZXN0ZS5jb20iLCJhZG1pbiI6dHJ1ZSwiY3JpYWRvX2VtIjoiMjAyMy0wNC0yMVQxMzo0MjozOC45NjhaIn0sImlhdCI6MTY4MjA4NjYwMywiZXhwIjoxNjg0Njc4NjAzfQ.Uaqk7m9aJQt4xvuJPiaujqpD_LAksFellmm4ahTEjak
+@tokenAdmin = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjo5LCJub21lIjoiQWRtaW4iLCJlbWFpbCI6InRlc3RlM0B0ZXN0ZS5jb20iLCJhZG1pbiI6dHJ1ZSwiY3JpYWRvX2VtIjoiMjAyMy0wNC0yMVQxMzo0MjozOC45NjhaIn0sImlhdCI6MTY4MjM2MDY1MywiZXhwIjoxNjg0OTUyNjUzfQ.x39liSWgrRtRkkr6pR8O9LBD9aDvOC_i1M-SD9bQaHw
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjoxNiwibm9tZSI6IkFkbWluIiwiZW1haWwiOiJ0ZXN0ZTZAdGVzdGUuY29tIiwiYWRtaW4iOmZhbHNlLCJjcmlhZG9fZW0iOiIyMDIzLTA1LTAzVDIzOjI5OjQ4LjI0NloifSwiaWF0IjoxNjgzMTU2NTk5LCJleHAiOjE2ODU3NDg1OTl9.3e_4061FOBWRSUqwUiB2A1P-dGqpwIvBbpcTMvV-Bes
 
 ###
 GET {{baseURL}}
@@ -10,11 +11,22 @@ Content-Type: application/json
 
 {
     "senha": "123456",
-    "email": "teste3@teste.com",
+    "email": "teste6@teste.com",
     "nome": "Admin",
     "admin": true
 }
 
+###
+POST {{baseURL}}/usuarios/admin
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "senha": "123456",
+    "email": "teste6@teste.com",
+    "nome": "Excluir",
+    "admin": false
+}
 
 ###
 POST {{baseURL}}/usuarios/login
@@ -22,9 +34,31 @@ Content-Type: application/json
 
 {
     "senha": "123456",
-    "email": "teste3@teste.com"
+    "email": "teste6@teste.com"
 }
 
 ###
 GET {{baseURL}}/usuarios
+Authorization: Bearer {{tokenAdmin}}
+
+###
+GET {{baseURL}}/usuarios/1
 Authorization: Bearer {{token}}
+
+### Atualiza o usuário
+PATCH {{baseURL}}/usuarios/9
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "senha": "123456",
+    "nome": "Admin",
+    "admin": true
+}
+
+### Remove um usuário 
+DELETE {{baseURL}}/usuarios/16
+Authorization: Bearer {{token}}
+
+
+

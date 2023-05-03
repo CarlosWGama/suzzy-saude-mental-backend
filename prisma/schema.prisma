@@ -52,7 +52,7 @@ enum OrientacaoSexual {
 model DadosExtras {
   id Int @id @default(autoincrement())
   usuario_id Int @unique
-  usuario Usuario @relation(fields: [usuario_id], references: [id])
+  usuario Usuario @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
   telefone String?
   cpf String?
   data_nascimento DateTime?

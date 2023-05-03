@@ -7,6 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 import jwtOpcoes from './../config/jwt';
 import { AutenticadoGuard } from '../jwt/autenticado.guard';
 import { Request } from 'express';
+import { AdminGuard } from '../jwt/admin.guard';
 
 @Controller('usuarios')
 export class UsuariosController {
@@ -14,14 +15,27 @@ export class UsuariosController {
 
   //==========================================================
   @Post()
-  async create(@Body() dados: CreateUsuarioDto) {
+  async criar(@Body() dados: CreateUsuarioDto) {
+    dados.admin = false;
+    return this.salvarUsuario(dados);
+  }
+
+  //==========================================================
+  @Post('/admin')
+  @UseGuards(AdminGuard)
+  async criarAdmin(@Req() request: Request, @Body() dados: CreateUsuarioDto) {
+    console.log('Admin' , request['jwt']['admin']);
+    dados.admin = request['jwt']['admin'] ? dados.admin : false;
+    return this.salvarUsuario(dados);
+  }
+  //===========================================================
+  private async salvarUsuario( dados: CreateUsuarioDto) {
     const retorno = await this.usuariosService.cadastrar(dados);
     if (retorno.sucesso)  
       return retorno.usuario
     else
       throw new HttpException(retorno.erro, 500);
   }
-
   //==========================================================
   @Post('/login')
   @HttpCode(200)
@@ -34,31 +48,52 @@ export class UsuariosController {
 
     //
     return {
-      jwt: this.jwtService.sign({payload: retorno.usuario}, jwtOpcoes)
+      jwt: this.jwtService.sign({payload: retorno.usuario}, jwtOpcoes),
+      usuario: retorno.usuario
     }
   }
 
   //==========================================================
   @Get()
-  @UseGuards(AutenticadoGuard)
+  @UseGuards(AdminGuard)
   buscarTodos(@Req() request: Request) {
-    console.log(request['jwt-payload']);
+    console.log(request['jwt']);
     return this.usuariosService.buscarTodos();
   }
 
   //==========================================================
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usuariosService.findOne(+id);
+  @UseGuards(AutenticadoGuard)
+  async buscarUsuario(@Req() request: Request, @Param('id') id: string|number) {
+    if (!request['jwt']['admin'])
+      id = request['jwt']['id'];
+    
+    const usuario = await this.usuariosService.buscarPorId(+id);
+    if (!usuario) throw new HttpException("Usuário não encontrado", 404);
+    delete usuario['senha'];
+    return usuario;
   }
-
+  //========================================================
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
-    return this.usuariosService.update(+id, updateUsuarioDto);
+  @UseGuards(AutenticadoGuard)
+  atualizar(@Req() request: Request, @Param('id') id: string, @Body() dados: UpdateUsuarioDto) {
+    if (!request['jwt']['admin']) {
+      id = request['jwt']['id'];
+      delete dados.admin;
+    }
+
+    return this.usuariosService.atualizar(+id, dados);
   }
 
+  //=======================================================
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  @UseGuards(AutenticadoGuard)
+  remove(@Req() request: Request, @Param('id') id: string) {
+    //Senão for admin só pode excluir o próprio usuário
+    if (!request['jwt']['admin']) {
+      id = request['jwt']['id'];
+    }
+
     return this.usuariosService.remove(+id);
   }
 }
