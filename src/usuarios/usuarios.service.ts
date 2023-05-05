@@ -15,6 +15,12 @@ export class UsuariosService {
   
   //Cadastra usuário
   async cadastrar(dados: CreateUsuarioDto): Promise<{sucesso:boolean, usuario?:any, erro?:string}> {
+    //formata data
+    if (dados.data_nascimento) {
+      const [d, m, y] = dados.data_nascimento.split('/');
+      dados.data_nascimento = `${y}-${m}-${d}`;
+    }
+
     
     try {
       const bcrypt = require('bcrypt');
@@ -32,6 +38,7 @@ export class UsuariosService {
       console.log(usuario)
       
       let data = filtrarCampos(dados, ['telefone', 'cpf', 'data_nascimento', 'genero', 'escolaridade', 'zona_residencial', 'estado_civil', 'orientacao_sexual', 'problema_mental', 'problema_mental_quais', 'uso_medicamento', 'uso_medicamento_quais']);
+      console.log(data);
       data['usuario_id'] = usuario.id
       
       // @ts-ignore
@@ -45,8 +52,11 @@ export class UsuariosService {
     } catch(e) {
       if (e?.meta?.target == 'Usuario_email_key')
         return {sucesso: false, erro: 'Email já em uso'}
-      else
+      else {
+        console.log(e);
         return {sucesso: false, erro: 'Falha ao salvar dados'}
+
+      }
     }
   }
 
@@ -98,6 +108,12 @@ export class UsuariosService {
       
       data = filtrarCampos(dados, ['telefone', 'cpf', 'data_nascimento', 'genero', 'escolaridade', 'zona_residencial', 'estado_civil', 'orientacao_sexual', 'problema_mental', 'problema_mental_quais', 'uso_medicamento', 'uso_medicamento_quais']);
       
+      //formata data
+      if (data.data_nascimento) {
+        const [d, m, y] = dados.data_nascimento.split('/');
+        data.data_nascimento = `${y}-${m}-${d}`;
+      }
+
       const extra = await this.prisma.dadosExtras.update({where: {usuario_id: id}, data})
       console.log(extra)
       

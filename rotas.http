@@ -57,8 +57,8 @@ Authorization: Bearer {{token}}
 }
 
 ### Remove um usuário 
-DELETE {{baseURL}}/usuarios/16
-Authorization: Bearer {{token}}
+DELETE {{baseURL}}/usuarios/24
+Authorization: Bearer {{tokenAdmin}}
 
 
 

@@ -55,7 +55,7 @@ model DadosExtras {
   usuario Usuario @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
   telefone String?
   cpf String?
-  data_nascimento DateTime?
+  data_nascimento String?
   genero Genero?
   escolaridade String?
   zona_residencial ZonaResidencial?

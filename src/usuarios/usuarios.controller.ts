@@ -16,6 +16,7 @@ export class UsuariosController {
   //==========================================================
   @Post()
   async criar(@Body() dados: CreateUsuarioDto) {
+    console.log('USUARIO - CADASTRO')
     dados.admin = false;
     return this.salvarUsuario(dados);
   }
@@ -30,6 +31,7 @@ export class UsuariosController {
   }
   //===========================================================
   private async salvarUsuario( dados: CreateUsuarioDto) {
+    
     const retorno = await this.usuariosService.cadastrar(dados);
     if (retorno.sucesso)  
       return retorno.usuario

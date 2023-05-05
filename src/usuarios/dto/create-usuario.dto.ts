@@ -39,7 +39,7 @@ export class CreateUsuarioDto {
     //===========
     @IsString({message: 'Data de Nascimento em formato inválido'})
     @IsOptional()
-    data_nascimento?: string;
+    data_nascimento?: any;
 
     //===========
     @IsString({message: 'Gênero deve ser um texto'})

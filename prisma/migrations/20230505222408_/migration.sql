@@ -17,7 +17,7 @@ CREATE TABLE `DadosExtras` (
     `usuario_id` INTEGER NOT NULL,
     `telefone` VARCHAR(191) NULL,
     `cpf` VARCHAR(191) NULL,
-    `data_nascimento` DATETIME(3) NULL,
+    `data_nascimento` VARCHAR(191) NULL,
     `genero` ENUM('masculino', 'feminino', 'outros') NULL,
     `escolaridade` VARCHAR(191) NULL,
     `zona_residencial` ENUM('urbana', 'rural') NULL,
@@ -33,4 +33,4 @@ CREATE TABLE `DadosExtras` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `DadosExtras` ADD CONSTRAINT `DadosExtras_usuario_id_fkey` FOREIGN KEY (`usuario_id`) REFERENCES `Usuario`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `DadosExtras` ADD CONSTRAINT `DadosExtras_usuario_id_fkey` FOREIGN KEY (`usuario_id`) REFERENCES `Usuario`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
