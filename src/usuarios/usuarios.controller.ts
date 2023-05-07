@@ -75,6 +75,16 @@ export class UsuariosController {
     delete usuario['senha'];
     return usuario;
   }
+   //==========================================================
+   @Get('/perfil')
+   @UseGuards(AutenticadoGuard)
+   async buscarUsuarioLogado(@Req() request: Request) {
+     const id = request['jwt']['id'];
+     const usuario = await this.usuariosService.buscarPorId(+id);
+     if (!usuario) throw new HttpException("Usuário não encontrado", 404);
+     delete usuario['senha'];
+     return usuario;
+   }
   //========================================================
   @Patch(':id')
   @UseGuards(AutenticadoGuard)

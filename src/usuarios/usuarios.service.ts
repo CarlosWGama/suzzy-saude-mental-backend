@@ -86,7 +86,7 @@ export class UsuariosService {
   //Busca um unico usuário
   async buscarPorId(id: number) {
     console.log(id)
-    return this.prisma.usuario.findUnique({where: {id}})
+    return this.prisma.usuario.findUnique({where: {id}, include: {extra:true}})
   }
 
   //atualiza os dados do usuário
