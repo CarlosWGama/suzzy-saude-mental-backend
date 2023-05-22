@@ -17,6 +17,7 @@ model Usuario {
   senha String  
   admin Boolean @default(false)
   extra DadosExtras?
+  contatos Contato[]
   criado_em DateTime @default(now())
 }
 
@@ -65,4 +66,12 @@ model DadosExtras {
   problema_mental_quais String?
   uso_medicamento Boolean?
   uso_medicamento_quais String?
+}
+
+model Contato {
+  id Int @id @default(autoincrement())
+  nome String
+  telefone String
+  usuario_id Int
+  usuario Usuario @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
 }

@@ -1,6 +1,6 @@
 @baseURL = http://localhost:3000
 @tokenAdmin = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjo5LCJub21lIjoiQWRtaW4iLCJlbWFpbCI6InRlc3RlM0B0ZXN0ZS5jb20iLCJhZG1pbiI6dHJ1ZSwiY3JpYWRvX2VtIjoiMjAyMy0wNC0yMVQxMzo0MjozOC45NjhaIn0sImlhdCI6MTY4MjM2MDY1MywiZXhwIjoxNjg0OTUyNjUzfQ.x39liSWgrRtRkkr6pR8O9LBD9aDvOC_i1M-SD9bQaHw
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjoxNiwibm9tZSI6IkFkbWluIiwiZW1haWwiOiJ0ZXN0ZTZAdGVzdGUuY29tIiwiYWRtaW4iOmZhbHNlLCJjcmlhZG9fZW0iOiIyMDIzLTA1LTAzVDIzOjI5OjQ4LjI0NloifSwiaWF0IjoxNjgzMTU2NTk5LCJleHAiOjE2ODU3NDg1OTl9.3e_4061FOBWRSUqwUiB2A1P-dGqpwIvBbpcTMvV-Bes
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjoxLCJub21lIjoiQ2FybG9zIE5vdm8gbm9tZSIsImVtYWlsIjoiY2FybG9zQHRlc3RlLmNvbSIsImFkbWluIjpmYWxzZSwiY3JpYWRvX2VtIjoiMjAyMy0wNS0wNVQyMjoyNDo1Ni4yMDBaIn0sImlhdCI6MTY4NDc4MjIwOCwiZXhwIjoxNjg3Mzc0MjA4fQ.bH2e8MEitRwO0NXiIFXTAhHhQRsjK-JltCL6hZlj2eU
 
 ###
 GET {{baseURL}}
@@ -34,7 +34,7 @@ Content-Type: application/json
 
 {
     "senha": "123456",
-    "email": "teste6@teste.com"
+    "email": "carlos@teste.com"
 }
 
 ###
@@ -57,8 +57,32 @@ Authorization: Bearer {{token}}
 }
 
 ### Remove um usuário 
-DELETE {{baseURL}}/usuarios/24
+DELETE {{baseURL}}/usuarios/25
 Authorization: Bearer {{tokenAdmin}}
 
 
 
+#################################################################
+# Contatos
+#################################################################
+
+### Cadastra
+POST {{baseURL}}/contatos
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "nome": "Contato 3",
+    "telefone": "(82) 9 7777-7777"
+}
+
+### Busca
+GET {{baseURL}}/contatos
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+### Remove
+DELETE {{baseURL}}/contatos/5
+Content-Type: application/json
+Authorization: Bearer {{token}}
